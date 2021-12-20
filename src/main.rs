@@ -36,6 +36,8 @@ fn main() -> std::io::Result<()> {
         dead_cell_color: Color::RGB(30, 30, 30),
         border_color: Color::RGB(0, 0, 0)
     };
+
+    assert_eq!(WIN_WIDTH % (CELL_WIDTH + BORDER_SIZE), BORDER_SIZE);
     
     let mut cells = [[0u8; WIN_WIDTH / (CELL_WIDTH + BORDER_SIZE)]; WIN_HEIGHT / (CELL_HEIGHT + BORDER_SIZE)];
 
