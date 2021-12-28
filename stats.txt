@@ -1,0 +1,18 @@
+
+tests on 200 steps on a (512 + 2)^2 cells square 1pxl/cell
+
+--- C : naive ---
+time 0.585427s
+cpucc 6230kc
+
+--- C : arrays ---
+time 1.739212s
+cpucc 12055kc
+
+--- C : Abrash ---
+time 0.141814s
+cpucc 1479kc
+
+--- C : Abrash w/ changes ---
+time 0.128250s
+cpucc 1322kc
