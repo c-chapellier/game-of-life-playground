@@ -1,7 +1,7 @@
 
 #include "gol.h"
 
-void abrash_changes_step(int cells[height][width], int cells_tmp[height][width], int changes[height * width + 1][2], int changes_tmp[height * width + 1][2])
+void step(int cells[height][width], int cells_tmp[height][width], int changes[height * width + 1][2], int changes_tmp[height * width + 1][2])
 {
     memcpy(cells_tmp, cells, height * width * sizeof(int));
 

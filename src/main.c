@@ -25,18 +25,8 @@ static void change_scale(int s)
     n_cells_on_screen = WIN_WIDTH / n_pxl_per_cell;
 }
 
-int main()
+static void init_cells(int cells[height][width], int cells_tmp[height][width], int changes[height * width + 1][2])
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Game of life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
-    int cells[height][width] = { 0 };
-    int cells_tmp[height][width] = { 0 };
-
-    int changes[height * width + 1][2] = { 0 };
-    int changes_tmp[height * width + 1][2] = { 0 };
-
     // for (int i = 0; i < height; ++i)
     // {
     //     for (int j = 0; j < width; ++j)
@@ -59,7 +49,6 @@ int main()
     cells[200 + 5][200 - 2] = ALIVE;
     cells[200 + 6][200 - 2] = ALIVE;
 
-#if ALGORITHM == ABRASH_CHANGES
     int ci = 0;
     for (int i = 0; i < height; ++i)
     {
@@ -74,9 +63,7 @@ int main()
             }
         }
     }
-#endif
 
-#if ALGORITHM == ABRASH || ALGORITHM == ABRASH_CHANGES
     memcpy(cells_tmp, cells, height * width * sizeof(int));
     for (int i = 0; i < height; ++i)
     {
@@ -96,7 +83,21 @@ int main()
         }
     }
     memcpy(cells, cells_tmp, height * width * sizeof(int));
-#endif
+}
+
+int main()
+{
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Window *window = SDL_CreateWindow("Game of life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    
+    int cells[height][width] = { 0 };
+    int cells_tmp[height][width] = { 0 };
+
+    int changes[height * width + 1][2] = { 0 };
+    int changes_tmp[height * width + 1][2] = { 0 };
+
+    init_cells(cells, cells_tmp, changes);
 
     change_scale(0);
 
@@ -189,11 +190,7 @@ static void draw_cells(SDL_Renderer *renderer, int cells[height][width])
             rect.x = n_pxl_per_cell * j;
             rect.y = WIN_HEIGHT - (n_pxl_per_cell * (i + 1));
 
-#if ALGORITHM == ABRASH || ALGORITHM == ABRASH_CHANGES
             if (cells[2 + i][2 + j] % 2)
-#else
-            if (cells[2 + i][2 + j] == ALIVE)
-#endif
             {
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
             }
