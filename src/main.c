@@ -35,12 +35,6 @@ static void init_cells(int cells[height][width], int cells_tmp[height][width], i
     //     }
     // }
 
-    // cells[1][2] = ALIVE;
-    // cells[1][3] = ALIVE;
-    // cells[2][1] = ALIVE;
-    // cells[2][2] = ALIVE;
-    // cells[3][2] = ALIVE;
-
     cells[200 + 1][200] = ALIVE;
     cells[200 + 3][200 - 1] = ALIVE;
     cells[200][200 - 2] = ALIVE;
@@ -77,7 +71,7 @@ static void init_cells(int cells[height][width], int cells_tmp[height][width], i
                     int n = j - 1 + l;
 
                     if (!(m < 0 || n < 0 || m >= height || n >= width) && (m != i || n != j))
-                        cells_tmp[i][j] += cells[m][n] * 2;
+                        cells_tmp[i][j] += cells[m][n] * 4;
                 }
             }
         }
@@ -120,7 +114,7 @@ int main()
             clock_t begin = clock();
             uint64_t begin_cpucc = get_cpucc();
 
-            step(cells, cells_tmp, changes, changes_tmp);
+            step(cells, changes, changes_tmp);
 
             exec_time += clock() - begin;
             cpucc = get_cpucc() - begin_cpucc;

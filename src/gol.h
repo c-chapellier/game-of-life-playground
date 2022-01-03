@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <SDL2/SDL.h>
 #include <time.h>
+#include <assert.h>
 
 #define ALIVE 1
 #define DEAD 0
@@ -19,6 +20,6 @@
 extern const int height;
 extern const int width;
 
-void step(int cells[height][width], int cells_tmp[height][width], int changes[height * width + 1][2], int changes_tmp[height * width + 1][2]);
+void step(int cells[height][width], int changes[height * width + 1][2], int changes_tmp[height * width + 1][2]);
 
 #endif
