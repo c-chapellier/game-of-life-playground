@@ -81,10 +81,13 @@ static void init_cells(int cells[height][width], int cells_tmp[height][width], i
 
 int main()
 {
+
+#if GUI
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow("Game of life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
+#endif
+
     int cells[height][width] = { 0 };
     int cells_tmp[height][width] = { 0 };
 
@@ -93,9 +96,10 @@ int main()
 
     init_cells(cells, cells_tmp, changes);
 
+#if GUI
     change_scale(0);
-
     draw_cells(renderer, cells);
+#endif
 
     char buf;
     read(1, &buf, 1);
@@ -119,10 +123,13 @@ int main()
             exec_time += clock() - begin;
             cpucc = get_cpucc() - begin_cpucc;
 
+#if GUI
             draw_cells(renderer, cells);
+#endif
             ++n;
         }
 
+#if GUI
         SDL_Event event;
         SDL_PollEvent(&event);
 
@@ -153,8 +160,9 @@ int main()
         default:
             break;
         }
+#endif
 
-        if (n > 200)
+        if (n > (GUI ? 200 : 100000))
         {
             break ;
         }
@@ -163,9 +171,12 @@ int main()
     printf("time %fs\n", (double)exec_time / CLOCKS_PER_SEC);
     printf("cpucc %llukc\n", cpucc / 1000);
 
+#if GUI
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+#endif
+
 }
 
 static void draw_cells(SDL_Renderer *renderer, int cells[height][width])

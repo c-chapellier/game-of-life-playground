@@ -8,6 +8,8 @@
 #include <time.h>
 #include <assert.h>
 
+#define GUI 1
+
 #define ALIVE 1
 #define DEAD 0
 
